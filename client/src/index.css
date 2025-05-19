@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+Input,
+select,
+textarea {
+  min-height: 50px;
+}
+i{
+  font-size: 20px;
+}
