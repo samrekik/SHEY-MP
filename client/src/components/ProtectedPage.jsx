@@ -41,10 +41,17 @@ export default function ProtectedPage({ children }) {
     user && (
       <div>
         <div className="flex justify-between items-center bg-[#405138] p-5">
-          <h1 className="text-2xl text-white">SHEY MP</h1>
+          <h1 className="text-2xl text-white cursor-pointer"onClick={()=>navigate('/')}>SHEY MP</h1>
           <div className="bg-white text-[16px] py-2 px-5 rounded flex gap-1 items-center">
             <i className="ri-shield-user-line"></i>
-            <span className="underline cursor-pointer "onClick={()=>navigate('/profile')}>{user.name}</span>
+            <span className="underline cursor-pointer "onClick={()=>
+              {
+                if(user.role==='user'){
+                navigate('/profile')}
+                else{
+                  navigate('/admin')
+                }
+              }}>{user.name}</span>
             <i className="ri-logout-box-r-line ml-10 cursor-pointer"onClick={()=>{
               localStorage.removeItem("token")
               navigate('/login')

@@ -9,10 +9,12 @@ import {
   Select,
   Tabs,
 } from "antd";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../redux/loadersSlice";
 import { AddProduct, EditProduct } from "../../apicalls/product";
+import Images from "./Images";
+import { Footer } from "antd/es/layout/layout";
 const additionalThings = [
   {
     label: "Bill Available",
@@ -44,7 +46,8 @@ export default function ProductForm({
 }) {
   const formRef = useRef(null);
   const dispatch = useDispatch();
-  const {message} = App.useApp();
+  const { message } = App.useApp();
+  const [selectedTab, setSelectedTab] = useState("1");
   const { user } = useSelector((state) => state.users);
   const onFinish = async (values) => {
     try {
@@ -91,12 +94,18 @@ export default function ProductForm({
         onOk={() => {
           formRef.current.submit();
         }}
+        {...(selectedTab === "2" && { footer: false })}
       >
         <div>
           <h1 className="text-2xl font-bold text-center uppercase">
             {selectedProduct ? "Edit Product" : "Add Product"}
           </h1>
-          <Tabs defaultActiveKey="1">
+          <Tabs
+            defaultActiveKey="1"
+            activeKey={selectedTab}
+            onChange={(key) => setSelectedTab(key)}
+          >
+            
             <Tabs.TabPane tab="General" key="1">
               <Form
                 layout="vertical"
@@ -191,8 +200,12 @@ export default function ProductForm({
                 </div>
               </Form>
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Image" key="2">
-              <h1>Image</h1>
+            <Tabs.TabPane tab="Image" key="2" disabled={!selectedProduct}>
+              <Images
+                selectedProduct={selectedProduct}
+                getData={getData}
+                setShowProductForm={setShowProductForm}
+              />
             </Tabs.TabPane>
           </Tabs>
         </div>

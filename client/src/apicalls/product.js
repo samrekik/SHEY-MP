@@ -23,6 +23,21 @@ export const EditProduct = async (id,payload) => {
     };
   }
 };
+//edit status product
+export const EditStatusProduct = async (id,status) => {
+  try {
+    const response = await axiosInstance.put(
+      `/product/edit-product-status/${id}`,
+      {status}
+    );
+    return response.data;
+  } catch (error) {
+     return {
+      success: false,
+      message: error.response?.data?.message || error.message,
+    };
+  }
+};
 //delete product
 export const DeleteProduct = async (id,payload) => {
   try {
@@ -39,11 +54,20 @@ export const DeleteProduct = async (id,payload) => {
   }
 };
 //get all product
-export const getAllProduct = async (payload) => {
+export const getAllProduct = async (filters) => {
   try {
-    const response = await axiosInstance.get("/product/get-product", payload);
+    const response = await axiosInstance.post("/product/get-product", filters);
     return response.data;
   } catch (error) {
     return error.message;
   }
 };
+//upload product image
+export const UploadProductImage=async(payload)=>{
+  try {
+    const response =await axiosInstance.post('/product/upload-image-to-product',payload)
+    return response.data
+  } catch (error) {
+    return error.message;
+  }
+}

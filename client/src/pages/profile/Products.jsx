@@ -2,7 +2,7 @@ import { Button, Table, App } from "antd";
 import React, { useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
 import Title from "antd/es/skeleton/Title";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../redux/loadersSlice";
 import { getAllProduct, DeleteProduct } from "../../apicalls/product";
 import moment from "moment";
@@ -10,6 +10,7 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const { message } = App.useApp();
+  const {user}=useSelector((state)=>state.users)
   const [showProductForm, setShowProductForm] = useState(false);
   const dispatch = useDispatch();
   const deleteProduct = async (id) => {
@@ -32,11 +33,11 @@ export default function Products() {
   const getData = async () => {
     try {
       dispatch(SetLoader(true));
-      const response = await getAllProduct();
-      console.log(response.products);
+      const response = await getAllProduct({seller:user._id});
+      console.log(response.data);
       dispatch(SetLoader(false));
       if (response.success) {
-        setProducts(response.prod);
+        setProducts(response.data);
       }
     } catch (error) {
       dispatch(SetLoader(false));

@@ -29,6 +29,8 @@ module.exports.userController={
             const user=await User.findOne({email})
         if(!user)
             return res.status(401).json({message:"email or pwd  not valid "})
+          if(user.status!=="active")
+           { throw new Error ("the user account is blocked,please contact the Admin")}
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
           return res
@@ -58,6 +60,27 @@ module.exports.userController={
         const user=await User.findById(req.userId)
         res.send({success:true,message:"user fetched successfully",
           data:user
+        })
+      } catch (error) {
+        res.status(401).json({ success: false, error: error.message });
+      }
+    },
+    editUsers: async (req, res) => {
+        try {
+          await User.findByIdAndUpdate(req.params.id, req.body);
+          return res.status(200).json({
+            success: true,
+            message: "user updatetd successfuly",
+          });
+        } catch (error) {
+          res.status(500).json({ success: false, message: error.message });
+        }
+      },
+    getAllUser:async(req,res)=>{
+      try {
+        const users=await User.find()
+        res.send({success:true,message:"user fetched successfully",
+          data:users
         })
       } catch (error) {
         res.status(401).json({ success: false, error: error.message });
