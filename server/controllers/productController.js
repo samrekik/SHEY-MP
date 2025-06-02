@@ -44,6 +44,19 @@ module.exports.productController = {
       res.status(500).json({ success: false, message: error.message });
     }
   },
+  getProductId: async (req, res) => {
+    try {
+      const product = await Product.findById(req.params.id).populate("seller");
+
+      return res.status(200).json({
+        success: true,
+        message: "product updatetd successfuly",
+        data: product,
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+    }
+  },
   updateStatusProduct: async (req, res) => {
     try {
       const { status } = req.body;

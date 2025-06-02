@@ -40,8 +40,8 @@ export default function ProtectedPage({ children }) {
   return (
     user && (
       <div>
-        <div className="flex justify-between items-center bg-[#405138] p-5">
-          <h1 className="text-2xl text-white cursor-pointer"onClick={()=>navigate('/')}>SHEY MP</h1>
+        <div className="flex justify-between items-center bg-[#405138] p-5 mb-5">
+          <h1 className="text-2xl text-white cursor-pointer"onClick={()=>navigate('/')}>SHEY MP</h1> 
           <div className="bg-white text-[16px] py-2 px-5 rounded flex gap-1 items-center">
             <i className="ri-shield-user-line"></i>
             <span className="underline cursor-pointer "onClick={()=>

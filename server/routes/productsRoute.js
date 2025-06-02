@@ -10,6 +10,7 @@ route.post("/add-product", authMiddleware, productController.AddProd);
 route.post("/get-product", authMiddleware, productController.getAllProd);
 route.put("/edit-product/:id", authMiddleware, productController.editProduct);
 route.put("/edit-product-status/:id", authMiddleware, productController.updateStatusProduct);
+route.get("/get-product-id/:id",productController.getProductId)
 route.delete(
   "/delete-product/:id",
   authMiddleware,

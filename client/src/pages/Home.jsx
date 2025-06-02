@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../redux/loadersSlice";
 import { getAllProduct } from "../apicalls/product";
-import { App, Divider } from "antd";
+import { App } from "antd";
+import {  useNavigate } from "react-router-dom";
+import Divider from "../components/Divider"
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const { message } = App.useApp();
+  const navigate=useNavigate()
   const [filters, setFilters] = useState({ status: "approved" });
   const { user } = useSelector((state) => state.users);
   const getData = async () => {
@@ -28,20 +31,21 @@ export default function Home() {
   }, []);
   return (
     <div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-5 gap-5 m-5">
         {products?.map((prod) => {
           return (
-            <div className="border border-gray-300 rounded border-solid flex flex-col">
+            <div className="border border-gray-300 rounded border-solid flex flex-col gap-5 pb-2 cursor-pointer" key={prod._id} onClick={()=>navigate(`/product/${prod._id}`)}>
               <img
                 src={prod.images[0]}
                 className="w-full h-40 object-cover"
                 alt=""
               />
-              <Divider />
-              <div className="p-5 flex flex-col gap-2">
+             
+              <div className="px-2 flex flex-col gap-1">
                 <h1 className="text-lg font-semibold">{prod.name}</h1>
                 <p className="text-sm ">{prod.description}</p>
-                <span className="text-lg font-semibold text-green-500">
+                 <Divider />
+                <span className="text-lg font-semibold text-green-700">
                   ${prod.price}
                 </span>
               </div>
@@ -49,6 +53,7 @@ export default function Home() {
           );
         })}
       </div>
+      
     </div>
   );
 }

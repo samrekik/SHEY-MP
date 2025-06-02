@@ -62,6 +62,15 @@ export const getAllProduct = async (filters) => {
     return error.message;
   }
 };
+//get  product by id
+export const GetProductById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/product/get-product-id/${id}`);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
 //upload product image
 export const UploadProductImage=async(payload)=>{
   try {
